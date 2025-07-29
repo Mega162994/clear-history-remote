@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Remote History Clear</title>
+</head>
+<body>
+  <h2>Clear History</h2>
+  <input id="pin" placeholder="Enter PIN" />
+  <button onclick="triggerClear()">Clear History</button>
+
+  <script>
+    async function triggerClear() {
+      const pin = document.getElementById("pin").value;
+      if (!pin) {
+        alert("Enter a PIN");
+        return;
+      }
+
+      const response = await fetch("https://clearhistoryproject-default-rtdb.firebaseio.com/trigger.json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: pin, clear: true }),
+      });
+
+      if (response.ok) {
+        alert("History clear signal sent.");
+      } else {
+        alert("Failed to update Firebase.");
+      }
+    }
+  </script>
+</body>
+</html>
